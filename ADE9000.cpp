@@ -290,26 +290,26 @@ Description: Starts a new acquisition cycle. Waits for constant time and returns
 Input:  Structure name
 Output: Register reading and temperature value in Degree Celsius
 */
-void ADE9000_ReadTempRegnValue(struct TemperatureRegnValue *data)
-{
-//  uint32_t trim;
-//  uint16_t gain;
-//  uint16_t offset;
-//  uint16_t tempReg;
-//  float tempValue;
-//
-//  SPI_Write_16(ADDR_TEMP_CFG,ADE9000_TEMP_CFG);//Start temperature acquisition cycle with settings in defined in ADE9000_TEMP_CFG
-//  delay(2); //delay of 2ms. Increase delay if TEMP_TIME is changed
-//
-//  trim = SPI_Read_32(ADDR_TEMP_TRIM);
-//  gain = (trim & 0xFFFF);  //Extract 16 LSB
-//  offset = ((trim>>16)&0xFFFF); //Extract 16 MSB
-//  tempReg = SPI_Read_16(ADDR_TEMP_RSLT); //Read Temperature result register
-//  tempValue = (float)(offset>>5)-((float)tempReg*(float)gain/(float)65536);
-//
-//  data->Temperature_Reg = tempReg;
-//  data->Temperature = tempValue;
+void ADE9000_ReadTempRegnValue(struct TemperatureRegnValue *Data) {
+    uint32_t trim;
+    uint16_t gain;
+    uint16_t offset;
+    uint16_t tempReg; 
+    float tempValue;
+    
+    SPI_Write_16(ADDR_TEMP_CFG, ADE9000_TEMP_CFG); // Start temperature acquisition cycle with settings in defined in ADE9000_TEMP_CFG
+    delay(2); // delay of 2ms. Increase delay if TEMP_TIME is changed
+
+    trim = SPI_Read_32(ADDR_TEMP_TRIM);
+    gain = (trim & 0xFFFF);  // Extract 16 LSB
+    offset = ((trim >> 16) & 0xFFFF); // Extract 16 MSB
+    tempReg = SPI_Read_16(ADDR_TEMP_RSLT); // Read Temperature result register
+    tempValue = (float)(offset >> 5) - ((float)tempReg * (float)gain / (float)65536); 
+    
+    Data->Temperature_Reg=tempReg;
+    Data->Temperature=tempValue;
 }
+
 void ADE9000_ReadCurrentRMSValues(struct CurrentRMSVals *data)
 {
   data->CurrentRMSVal_A = (float) (SPI_Read_32(ADDR_AIRMS) * IRMS_CC);
